@@ -24,5 +24,8 @@ install nodemon (to restart server automatically)
 install dotenv (to hide sensitive information)
     yarn add dotenv
 
-install bcrypt (to encrypt password)
-    yarn add bcrypt
+install bcryptjs (to encrypt password)
+    yarn add bcryptjs
+
+install jsonwebtoken (to create token)
+    yarn add jsonwebtoken
