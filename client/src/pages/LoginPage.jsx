@@ -1,22 +1,31 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { UserContext } from "../components/UserContext";
 import axios from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+  const { setUser } = useContext(UserContext);
   async function handleLoginSubmit(e) {
     e.preventDefault();
     try {
-      await axios.post("/login", {
+      const { data } = await axios.post("/login", {
         email,
         password,
       });
+      setUser(data);
+      setRedirect(true);
       alert("Login Successful!");
     } catch (e) {
       alert("Login Failed! Please try again.");
     }
+  }
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
   }
 
   return (
