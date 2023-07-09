@@ -32,3 +32,6 @@ install jsonwebtoken (to create token)
 
 install image-downloader (to download images)
     yarn add image-downloader
+
+install mutler (to upload images)
+    yarn add mutler

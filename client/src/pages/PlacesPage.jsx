@@ -48,7 +48,22 @@ export default function PlacesPage() {
 
   function uploadPhoto(e) {
     const files = e.target.files;
-    console.log(files);
+
+    const data = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      data.append("photos", files[i]);
+    }
+
+    axios
+      .post("/upload", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((response) => {
+        const { data: fileNames } = response;
+        setAddedPhotos((prev) => {
+          return [...prev, ...fileNames];
+        });
+      });
   }
 
   return (
@@ -118,15 +133,15 @@ export default function PlacesPage() {
             <div className="mt-2 gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {addedPhotos.length > 0 &&
                 addedPhotos.map((link) => (
-                  <div key={link}>
+                  <div key={link} className="h-28 flex ">
                     <img
-                      className="rounded-2xl"
+                      className="rounded-2xl w-full object-cover"
                       src={"http://localhost:4000/uploads/" + link}
                       alt="place"
                     />
                   </div>
                 ))}
-              <label className="cursor-pointer flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2">
+              <label className="h-28 cursor-pointer flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2">
                 <input type="file" className="hidden" onChange={uploadPhoto} />
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -169,30 +184,33 @@ export default function PlacesPage() {
 
             <div className="grid gap-2 sm:grid-cols-3">
               <div>
-                <h3 className="mt-2 -mb-1">Check in time</h3>
+                <h3 className="mt-2 mb-1">Check in time</h3>
                 <input
                   type="number"
                   value={checkIn}
                   onChange={(e) => setCheckIn(e.target.value)}
                   placeholder="14"
+                  className="py-1 pl-2 border rounded-xl"
                 />
               </div>
               <div>
-                <h3 className="mt-2 -mb-1">Check out time</h3>
+                <h3 className="mt-2 mb-1">Check out time</h3>
                 <input
                   type="number"
                   value={checkOut}
                   onChange={(e) => setCheckOut(e.target.value)}
                   placeholder="8"
+                  className="py-1 pl-2 border rounded-xl"
                 />
               </div>
               <div>
-                <h3 className="mt-2 -mb-1">Max number of guests</h3>
+                <h3 className="mt-2 mb-1">Max number of guests</h3>
                 <input
                   type="number"
                   value={maxGuests}
                   onChange={(e) => setMaxGuests(e.target.value)}
                   placeholder="5"
+                  className="py-1 pl-2 border rounded-xl"
                 />
               </div>
             </div>
