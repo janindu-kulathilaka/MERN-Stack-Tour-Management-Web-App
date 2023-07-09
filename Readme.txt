@@ -7,7 +7,7 @@ install axios to make http requests
     yarn add axios
 
 
-Back-end
+Api
 
 install express
     yarn add express
@@ -29,3 +29,6 @@ install bcryptjs (to encrypt password)
 
 install jsonwebtoken (to create token)
     yarn add jsonwebtoken
+
+install image-downloader (to download images)
+    yarn add image-downloader
