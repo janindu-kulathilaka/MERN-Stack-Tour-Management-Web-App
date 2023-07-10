@@ -1,18 +1,27 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { differenceInCalendarDays } from "date-fns";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../components/UserContext";
 
 export default function BookingWidget({ place }) {
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
   const [guests, setGuests] = useState(1);
   const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhone] = useState("");
   const [redirect, setRedirect] = useState("");
-  let numberOfNights = 0;
 
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+    }
+  }, [user]);
+
+  let numberOfNights = 0;
   if (checkIn && checkOut) {
     numberOfNights = differenceInCalendarDays(
       new Date(checkOut),
@@ -21,13 +30,13 @@ export default function BookingWidget({ place }) {
   }
 
   async function BookThisPlace() {
-    const response = await axios.post("/booking", {
-      placeId: place._id,
+    const response = await axios.post("/bookings", {
+      place: place._id,
       checkIn,
       checkOut,
       guests,
       name,
-      phoneNumber,
+      phone,
 
       price: place.price * numberOfNights,
     });
@@ -43,7 +52,7 @@ export default function BookingWidget({ place }) {
 
   return (
     <div className="bg-white p-4 rounded-2xl shadow shadow-gray-400">
-      {numberOfNights == 1 && (
+      {numberOfNights == 0 && (
         <div className="text-center">
           <span className="text-2xl font-bold">Price: ${place.price}.00</span> /
           per night
@@ -104,8 +113,8 @@ export default function BookingWidget({ place }) {
             <br />
             <input
               type="tel"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               placeholder="phone number"
               className="border rounded-2xl pl-3 py-2 w-full"
             />

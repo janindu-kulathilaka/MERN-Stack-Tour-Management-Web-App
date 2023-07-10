@@ -148,9 +148,8 @@ app.post("/places", (req, res) => {
       maxGuests,
       price,
     });
+    res.json(placeDoc);
   });
-
-  res.json(placeDoc);
 });
 
 app.get("/user-places", async (req, res) => {
@@ -211,9 +210,19 @@ app.get("/places", async (req, res) => {
   res.json(await Place.find());
 });
 
-app.post("/booking", async (req, res) => {
-  const { place, checkIn, checkOut, guests, name, phoneNumber, price } =
-    req.body;
+function getUserDataFromReq(request) {
+  const { token } = request.cookies;
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+      if (err) reject(err);
+      resolve(userData);
+    });
+  });
+}
+
+app.post("/bookings", async (req, res) => {
+  const userData = await getUserDataFromReq(req);
+  const { place, checkIn, checkOut, guests, name, phone, price } = req.body;
 
   Booking.create({
     place,
@@ -221,16 +230,22 @@ app.post("/booking", async (req, res) => {
     checkOut,
     guests,
     name,
-    phoneNumber,
+    phone,
     price,
+    user: userData.id,
   })
     .then((doc) => {
-      if (err) throw err;
       res.json(doc);
     })
     .catch((err) => {
       throw err;
     });
+});
+
+app.get("/bookings", async (req, res) => {
+  const userData = await getUserDataFromReq(req);
+
+  res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
 app.listen(4000);
