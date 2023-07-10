@@ -130,6 +130,7 @@ app.post("/places", (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -144,6 +145,7 @@ app.post("/places", (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     });
   });
 
@@ -178,6 +180,7 @@ app.put("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    price,
   } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -194,6 +197,7 @@ app.put("/places", async (req, res) => {
         checkIn,
         checkOut,
         maxGuests,
+        price,
       });
 
       await placeDoc.save();
