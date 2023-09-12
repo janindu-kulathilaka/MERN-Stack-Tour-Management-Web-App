@@ -37,7 +37,7 @@ export default function GalleryWidget({ place }) {
             place.photos.map((photo) => (
               <img
                 key={photo}
-                src={"http://localhost:4000/uploads/" + photo}
+                src={"http://localhost:5000/uploads/" + photo}
                 alt="photo"
               />
             ))}
@@ -54,7 +54,7 @@ export default function GalleryWidget({ place }) {
               <img
                 onClick={() => setShowAllPhotos(true)}
                 className="aspect-square object-cover"
-                src={"http://localhost:4000/uploads/" + place.photos[0]}
+                src={"http://localhost:5000/uploads/" + place.photos[0]}
                 alt="photo1"
               />
             </div>
@@ -65,7 +65,7 @@ export default function GalleryWidget({ place }) {
             <img
               onClick={() => setShowAllPhotos(true)}
               className="aspect-square object-cover"
-              src={"http://localhost:4000/uploads/" + place.photos[1]}
+              src={"http://localhost:5000/uploads/" + place.photos[1]}
               alt="photo1"
             />
           )}
@@ -74,7 +74,7 @@ export default function GalleryWidget({ place }) {
               <img
                 onClick={() => setShowAllPhotos(true)}
                 className="aspect-square object-cover relative top-2"
-                src={"http://localhost:4000/uploads/" + place.photos[2]}
+                src={"http://localhost:5000/uploads/" + place.photos[2]}
                 alt="photo1"
               />
             </div>

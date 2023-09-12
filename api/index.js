@@ -14,7 +14,6 @@ const fs = require("fs");
 require("dotenv").config();
 const app = express();
 
-const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "adaweja564p34dawce2413cpawqiw1e1od1";
 
 app.use(express.json());
@@ -248,4 +247,4 @@ app.get("/bookings", async (req, res) => {
   res.json(await Booking.find({ user: userData.id }).populate("place"));
 });
 
-app.listen(4000);
+app.listen(5000);
